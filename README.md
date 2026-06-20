@@ -1,56 +1,54 @@
-# AI Bot (FastAPI + Azure OpenAI)
+<div align="center">
 
-Node.js v20 compatible.
+# Azure Voice Bot v2
 
-Behavior:
-- Text input -> text reply
-- Audio input -> audio reply
-- ACS WhatsApp inbound (Event Grid) -> auto reply via ACS Advanced Messaging
+FastAPI voice bot using Azure OpenAI speech and chat APIs with ACS WhatsApp Event Grid integration.
 
-This version includes working Azure OpenAI REST calls for:
-- GPT text (Chat Completions)
-- STT (Audio Transcriptions)
-- TTS (Audio Speech)
+![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Reference%20Implementation-6366F1)
 
-Flow:
-Text -> GPT -> Text
-Audio -> STT -> GPT -> TTS -> Audio
+</div>
 
-## Setup
-1) Install Python deps
+---
+
+## Overview
+
+FastAPI voice bot using Azure OpenAI speech and chat APIs with ACS WhatsApp Event Grid integration.
+
+## Highlights
+
+- Text conversation endpoint
+- Speech-to-text and text-to-speech
+- Conversational AI responses
+- WhatsApp and ACS integration
+
+## Tech Stack
+
+Python · FastAPI · Azure OpenAI · LangChain · FAISS
+
+## Getting Started
+
 ```bash
+git clone https://github.com/haseebconventarian2-gif/voicebot-v2.git
+cd voicebot-v2
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+# macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-2) Create env file
-```bash
-cp .env.example .env
-```
+## Configuration
 
-3) Fill:
-- Azure OpenAI endpoint/key
-- Azure deployment names:
-  - `AZURE_GPT_DEPLOYMENT`
-  - `AZURE_STT_DEPLOYMENT`
-  - `AZURE_TTS_DEPLOYMENT`
-- Azure Communication Services (ACS) WhatsApp:
-  - `ACS_CONNECTION_STRING`
-  - `ACS_CHANNEL_REGISTRATION_ID`
-  - Optional: `EVENTGRID_SECRET` (requires header `x-eventgrid-secret`)
+Configure Azure OpenAI deployments and any messaging-channel credentials in `.env`.
 
-4) Run
+> Store credentials in `.env` and never commit secrets.
+
+## Run
+
 ```bash
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
-## API
-- `GET /health`
-- `POST /text` with JSON: `{ "text": "hello" }`
-- `POST /audio` with multipart form file field named `file`
-- `POST /acs/events` Event Grid webhook (list of events, or a single event)
-  - Subscription validation response uses `validationResponse`
-  - AdvancedMessageReceived triggers auto-reply: "Got your message ✅ (via ACS)"
+## Project Status
 
-## Notes
-- The WhatsApp Cloud API (Meta) Node.js logic lives in `app/`.
-- If you re-enable WhatsApp, ensure your TTS format matches the media content type.
+This is a learning and reference implementation. Review security, validation, monitoring, and deployment settings before production use.
